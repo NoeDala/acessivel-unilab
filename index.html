@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="description" content="Locais, barreiras e apoio para pessoas com deficiência na Unilab.">
+  <title>Acessível Unilab</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#app-main">Pular para o conteúdo</a>
+  <header class="app-header">
+    <a class="brand" href="#inicio" aria-label="Acessível Unilab, início"><img src="assets/app-icon.svg" width="46" height="46" alt=""><span>Acessível <strong>Unilab</strong></span></a>
+    <div class="header-context"><span class="eyebrow">Acessibilidade no seu dia a dia</span><span id="todayLabel"></span></div>
+    <div class="header-actions"><span id="connectionStatus" class="connection-status" role="status"></span><button class="icon-button reading-button" type="button" data-screen="cadastro" aria-label="Ajustar leitura e acessibilidade" title="Ajustar leitura e acessibilidade">Aa</button><button id="installApp" class="outline-button" type="button">Instalar app</button></div>
+  </header>
+  <!-- Navegação com histórico e foco para teclado e leitores de tela. -->
+  <nav class="app-nav" aria-label="Navegação principal">
+    <a class="brand nav-brand" href="#inicio" aria-label="Acessível Unilab, início"><img src="assets/app-icon.svg" width="44" height="44" alt=""><span>Acessível <strong>Unilab</strong></span></a>
+    <span class="nav-caption">Seu campus, ao seu alcance</span>
+    <button type="button" data-screen="inicio"><span aria-hidden="true">⌂</span>Início</button>
+    <button type="button" data-screen="mapa"><span aria-hidden="true">⌖</span>Mapa</button>
+    <button type="button" data-screen="feedback"><span aria-hidden="true">!</span>Barreiras</button>
+    <button type="button" data-screen="apoio"><span aria-hidden="true">＋</span>Apoio</button>
+    <button type="button" data-screen="cadastro"><span aria-hidden="true">♙</span>Meu perfil</button>
+    <div class="nav-extra"><button type="button" data-screen="direitos"><span aria-hidden="true">♡</span>Apoio e inclusão</button><p>Autonomia para viver a universidade.</p></div>
+  </nav>
+  <main id="app-main" tabindex="-1">
+    <section id="inicio" class="screen" aria-labelledby="inicio-title">
+      <div class="page-heading"><p class="eyebrow">Seu dia a dia na universidade</p><h1 id="inicio-title" tabindex="-1">Olá! Como podemos ajudar?</h1><p>Encontre locais, registre obstáculos e organize o apoio de que você precisa na Unilab.</p></div>
+      <div class="home-banner"><div class="banner-copy"><span class="banner-label">Juntos por uma Unilab acessível</span><h2>Seu campus.<br>Suas possibilidades.</h2><p>Encontre espaços, compartilhe suas necessidades e siga com mais autonomia.</p><button type="button" class="primary-button" data-screen="mapa">Explorar locais <span aria-hidden="true">→</span></button></div><img src="assets/hero-accessibility.png" alt="Ilustração de estudantes no campus, incluindo um estudante em cadeira de rodas."></div>
+      <div id="personalSummary" class="summary-grid" aria-label="Resumo dos seus registros"></div>
+      <div class="home-content"><div class="home-shortcuts"><div class="section-heading"><h2>O que você precisa hoje?</h2><span class="section-note">Acesso rápido</span></div><div class="shortcut-grid" aria-label="Acesso rápido">
+        <button type="button" class="shortcut" data-screen="mapa"><span class="icon green" aria-hidden="true">⌖</span><strong>Mapa de acessibilidade</strong><span>Estruturas físicas, fotos e condições de acesso.</span></button>
+        <button type="button" class="shortcut" data-screen="feedback"><span class="icon amber" aria-hidden="true">!</span><strong>Registrar uma barreira</strong><span>Guarde o local, o impacto e uma sugestão de melhoria.</span></button>
+        <button type="button" class="shortcut" data-screen="apoio"><span class="icon blue" aria-hidden="true">＋</span><strong>Preparar pedido de apoio</strong><span>Organize sua necessidade e encontre contatos oficiais.</span></button>
+        <button type="button" class="shortcut" data-screen="pia"><span class="icon blue" aria-hidden="true">▤</span><strong>Meu plano de acessibilidade</strong><span>Reúna as adaptações importantes para você.</span></button>
+      </div></div><section class="recent-section" aria-labelledby="recent-title"><div class="section-heading"><h2 id="recent-title">Meus registros recentes</h2></div><div id="recentActivity" class="activity-list"></div></section></div>
+      <div class="section-heading"><h2>Meus locais favoritos</h2><button type="button" class="text-button" data-screen="mapa">Ver mapa</button></div>
+      <div id="homeFavorites" class="card-grid"></div>
+      <div class="notice"><strong>Seus registros ficam neste dispositivo.</strong><p>Locais, fotos e pedidos salvos por você não são compartilhados automaticamente com outras pessoas ou com a universidade.</p></div>
+    </section>
+
+    <section id="mapa" class="screen" aria-labelledby="mapa-title" hidden>
+      <div class="page-heading"><p class="eyebrow">Espaços da Unilab</p><h1 id="mapa-title" tabindex="-1">Mapa de acessibilidade</h1><p>Consulte e registre condições de acesso das estruturas físicas.</p></div>
+      <p class="notice">Os locais iniciais são sugestões sem vistoria. Confira as condições antes de se deslocar. Este app não certifica acessibilidade.</p>
+      <div class="filters" aria-label="Filtros de locais">
+        <label>Buscar local<input id="placeSearch" type="search" placeholder="Nome ou estrutura"></label>
+        <label>Campus<select id="filterCampus"><option value="">Todos</option></select></label>
+        <label>Tipo de estrutura<select id="filterType"><option value="">Todos</option></select></label>
+        <label>Condição de acesso<select id="filterLevel"><option value="">Todas</option><option>Acessível</option><option>Parcialmente acessível</option><option>Não acessível</option><option>Não verificado</option></select></label>
+        <label class="check-label"><input id="onlyFavorites" type="checkbox">Somente favoritos</label>
+      </div>
+      <div id="levelShortcuts" class="level-shortcuts" aria-label="Filtrar por condição de acesso"></div>
+      <div class="map-toolbar"><p id="mapCount" role="status" tabindex="-1"></p><div class="map-tools"><button type="button" id="resetMapFilters" class="text-button">Limpar filtros</button><label class="sort-control">Ordenar<select id="mapSort"><option value="default">Ordem original</option><option value="name">Nome A–Z</option><option value="recent">Observação recente</option></select></label><div class="view-switch" aria-label="Visualização dos locais"><button class="icon-button" type="button" data-view="grid" aria-label="Ver em grade" title="Ver em grade" aria-pressed="true">⊞</button><button class="icon-button" type="button" data-view="list" aria-label="Ver em lista" title="Ver em lista" aria-pressed="false">☷</button></div><button type="button" class="primary-button" id="addPlace">＋ Adicionar local</button></div></div>
+      <details id="placeEditor"><summary>Cadastrar ou atualizar um local</summary>
+        <form id="placeForm" class="app-form" aria-label="Cadastro de estrutura física">
+          <input type="hidden" name="id">
+          <label>Nome do local<input name="nome" required maxlength="150"></label>
+          <label>Campus<input name="campus" required maxlength="100"></label>
+          <label>Tipo de estrutura<select name="tipo" required><option>Edificação</option><option>Sala de aula</option><option>Biblioteca</option><option>Laboratório</option><option>Auditório</option><option>Restaurante</option><option>Banheiro</option><option>Rampa</option><option>Elevador</option><option>Calçada ou corredor</option><option>Ponto de ônibus</option><option>Outro</option></select></label>
+          <label>Condição observada<select name="nivel" required><option>Não verificado</option><option>Acessível</option><option>Parcialmente acessível</option><option>Não acessível</option></select></label>
+          <label>Data da observação<input name="data" type="date" required></label>
+          <label>Endereço ou ponto de referência<input name="endereco" maxlength="250"></label>
+          <label class="full">Recursos físicos disponíveis<textarea name="recursos" rows="3" placeholder="Rampas, corrimãos, piso tátil, portas largas…" required maxlength="2000"></textarea></label>
+          <label class="full">Barreiras físicas<textarea name="barreiras" rows="3" placeholder="Descreva os obstáculos ou informe que não observou barreiras." required maxlength="2000"></textarea></label>
+          <label>Foto do local (opcional)<input name="foto" id="placePhoto" type="file" accept="image/jpeg,image/png,image/webp"><span class="field-note">Uma foto por local, até 8 MB. Evite pessoas identificáveis.</span></label>
+          <label>Descrição da foto<input name="fotoDescricao" maxlength="250" placeholder="Ex.: rampa de entrada com corrimão"></label>
+          <div id="photoPreview" class="full" hidden><img id="previewImage" alt="Prévia da foto"><button class="text-button" type="button" id="removePhoto">Remover foto</button></div>
+          <label class="full">Observações<textarea name="observacoes" rows="3" maxlength="2000"></textarea></label>
+          <div class="form-actions full"><button class="primary-button" type="submit">Salvar local</button><button class="outline-button" type="button" id="cancelPlace">Cancelar</button></div>
+          <p id="placeMsg" class="message full" role="status"></p>
+        </form>
+      </details>
+      <div id="placesList" class="card-grid"></div>
+    </section>
+
+    <section id="feedback" class="screen" aria-labelledby="feedback-title" hidden>
+      <div class="page-heading"><p class="eyebrow">Obstáculos no campus</p><h1 id="feedback-title" tabindex="-1">Meu diário de barreiras</h1><p>Registre o que encontrou para lembrar e encaminhar um relato quando precisar.</p></div>
+      <form id="feedbackForm" class="app-form" aria-label="Registro de barreira">
+        <label>Local<input name="local" required maxlength="150"></label><label>Campus<input name="campus" required maxlength="100"></label>
+        <label>Tipo de barreira<select name="tipo" required><option>Arquitetônica</option><option>Pedagógica</option><option>Tecnológica</option><option>Comunicacional</option><option>Atitudinal</option><option>Outra</option></select></label>
+        <label>Nível de impacto<select name="impacto" required><option>Baixo</option><option>Médio</option><option>Alto</option></select></label>
+        <label>Data<input name="data" type="date" required></label>
+        <label class="full">O que aconteceu?<textarea name="comentario" rows="3" required maxlength="2000"></textarea></label>
+        <label class="full">Sugestão de melhoria<textarea name="sugestao" rows="2" maxlength="2000"></textarea></label>
+        <button class="primary-button full" type="submit">Salvar barreira</button><p id="feedbackMsg" class="message full" role="status"></p>
+      </form>
+      <h2>Meus registros</h2><div class="filters"><label>Campus<select id="barrierCampus"><option value="">Todos</option></select></label><label>Tipo<select id="barrierType"><option value="">Todos</option></select></label><label>Impacto<select id="barrierImpact"><option value="">Todos</option><option>Baixo</option><option>Médio</option><option>Alto</option></select></label></div>
+      <div id="feedbackList" class="card-grid"></div>
+    </section>
+
+    <section id="apoio" class="screen" aria-labelledby="apoio-title" hidden>
+      <div class="page-heading"><p class="eyebrow">Apoio na universidade</p><h1 id="apoio-title" tabindex="-1">Preparar pedido de apoio</h1><p>Escreva seu pedido e copie o texto para encaminhar ao setor responsável.</p></div>
+      <div class="notice"><strong>Salvar um pedido aqui não o envia à Unilab.</strong><p>Consulte o canal oficial e encaminhe o texto para receber atendimento.</p><a href="https://unilab.edu.br/contatos-propae/" target="_blank" rel="noopener">Contatos oficiais da assistência estudantil ↗</a></div>
+      <form id="requestForm" class="app-form" aria-label="Preparar pedido de apoio">
+        <label>Tipo de apoio<select name="tipo" required><option>Mobilidade</option><option>Pedagógico</option><option>Tecnológico</option><option>Material acessível</option><option>Intérprete</option><option>Outro</option></select></label>
+        <label>Urgência<select name="urgencia" required><option>Baixa</option><option>Média</option><option>Alta</option></select></label><label>Data<input name="data" type="date" required></label>
+        <label class="full">Do que você precisa?<textarea name="descricao" rows="4" required maxlength="3000"></textarea></label>
+        <button class="primary-button full" type="submit">Salvar meu pedido</button><p id="requestMsg" class="message full" role="status"></p>
+      </form>
+      <button type="button" class="outline-button" data-screen="solicitacoes">Ver meus pedidos</button>
+    </section>
+
+    <section id="solicitacoes" class="screen" aria-labelledby="solicitacoes-title" hidden><div class="page-heading"><p class="eyebrow">Salvos no seu dispositivo</p><h1 id="solicitacoes-title" tabindex="-1">Meus pedidos de apoio</h1><p>Copie o texto para enviar ao setor responsável. O app não recebe respostas da universidade.</p></div><button class="primary-button" type="button" data-screen="apoio">＋ Novo pedido</button><div id="requestsList" class="card-grid"></div></section>
+
+    <section id="cadastro" class="screen" aria-labelledby="cadastro-title" hidden>
+      <div class="page-heading"><p class="eyebrow">Suas preferências</p><h1 id="cadastro-title" tabindex="-1">Meu perfil</h1><p>Você pode consultar o mapa sem cadastrar dados pessoais.</p></div>
+      <form id="studentForm" class="app-form" aria-label="Meu perfil de acessibilidade">
+        <label>Como quer ser chamado?<input name="nome" autocomplete="name" required maxlength="150"></label><label>Curso<input name="curso" maxlength="150"></label><label>Campus<input name="campus" maxlength="100"></label><label>Tipo de deficiência (opcional)<input name="deficiencia" maxlength="200"></label><label class="full">Necessidades de acessibilidade<textarea name="necessidades" rows="3" maxlength="2000"></textarea></label><label>Telefone ou e-mail (opcional)<input name="contato" maxlength="150"></label><label class="full">Observações<textarea name="observacoes" rows="2" maxlength="2000"></textarea></label><button class="primary-button full" type="submit">Salvar meu perfil</button><p id="studentMsg" class="message full" role="status"></p>
+      </form>
+      <h2>Ajustar a leitura</h2><div class="preferences" aria-label="Preferências de acessibilidade"><label>Tamanho do texto<select id="textSize"><option value="normal">Padrão</option><option value="large">Grande</option><option value="extra">Muito grande</option></select></label><label class="check-label"><input id="highContrast" type="checkbox">Alto contraste</label><label class="check-label"><input id="reduceMotion" type="checkbox">Reduzir movimento</label></div>
+      <h2>Meus recursos</h2><div class="button-row"><button class="outline-button" type="button" data-screen="pia">Meu plano de acessibilidade</button><button class="outline-button" type="button" data-screen="solicitacoes">Meus pedidos</button><button class="outline-button" type="button" data-screen="direitos">Apoio e inclusão</button><button class="outline-button" type="button" id="exportData">Baixar meus registros</button></div><p id="profileMsg" class="message" role="status"></p>
+    </section>
+
+    <section id="pia" class="screen" aria-labelledby="pia-title" hidden>
+      <div class="page-heading"><p class="eyebrow">Meu PIA</p><h1 id="pia-title" tabindex="-1">Meu plano de acessibilidade</h1><p>Organize suas necessidades para conversar com docentes e com a equipe de apoio. Este resumo pessoal não substitui um plano validado pela instituição.</p></div>
+      <form id="piaForm" class="app-form" aria-label="Meu plano de acessibilidade"><label class="full">Meu perfil ou tipo de deficiência<input name="deficiencia" required maxlength="200"></label><label class="full">Principais barreiras<textarea name="barreiras" required rows="3" maxlength="2000"></textarea></label><label class="full">Necessidades pedagógicas<textarea name="pedagogicas" required rows="3" maxlength="2000"></textarea></label><label class="full">Necessidades tecnológicas<textarea name="tecnologicas" rows="3" maxlength="2000"></textarea></label><label class="full">Necessidades de comunicação<textarea name="comunicacao" rows="3" maxlength="2000"></textarea></label><label class="full">Adaptações necessárias<textarea name="adaptacoes" required rows="3" maxlength="2000"></textarea></label><button class="primary-button full" type="submit">Salvar meu plano</button><p id="piaMsg" class="message full" role="status"></p></form><h2>Meus planos salvos</h2><div id="piaList" class="card-grid"></div>
+    </section>
+
+    <section id="direitos" class="screen" aria-labelledby="direitos-title" hidden><div class="page-heading"><p class="eyebrow">Inclusão no dia a dia</p><h1 id="direitos-title" tabindex="-1">Apoio e inclusão</h1></div><div class="card-grid"><article class="app-card"><h2>Acessibilidade física</h2><p>Rampas, circulação livre, banheiros e sinalização ajudam a acessar os espaços com autonomia. Registre as condições que você observar no mapa.</p><button type="button" class="outline-button" data-screen="mapa">Ver locais</button></article><article class="app-card"><h2>Materiais e comunicação</h2><p>Informe suas necessidades de leitura, legendas, comunicação escrita, interpretação ou recursos assistivos ao conversar com a equipe de apoio.</p><button type="button" class="outline-button" data-screen="apoio">Preparar pedido</button></article><article class="app-card"><h2>Contato com a Unilab</h2><p>Encontre os canais atuais de atendimento da assistência estudantil no site da universidade.</p><a class="primary-button" href="https://unilab.edu.br/contatos-propae/" target="_blank" rel="noopener">Abrir contatos oficiais ↗</a></article></div></section>
+  </main>
+  <dialog id="placeDialog" aria-labelledby="dialogTitle"><div class="dialog-head"><h2 id="dialogTitle">Detalhes do local</h2><button type="button" id="closeDialog" class="icon-button" aria-label="Fechar detalhes">×</button></div><div id="dialogContent"></div></dialog>
+  <dialog id="installDialog" aria-labelledby="installTitle"><div class="dialog-head"><h2 id="installTitle">Instalar Acessível Unilab</h2><button type="button" id="closeInstall" class="icon-button" aria-label="Fechar instalação">×</button></div><p>No Android ou computador, abra o menu do Chrome ou Edge e procure “Instalar aplicativo”. No iPhone, use o Safari: Compartilhar → Adicionar à Tela de Início.</p><p>A instalação fica disponível no endereço online com HTTPS. Depois do primeiro acesso, as telas e os registros locais podem abrir sem internet; o Google Maps e os contatos oficiais precisam de conexão.</p></dialog>
+  <p id="appStatus" class="toast" role="status" aria-live="polite"></p>
+  <footer>Acessível Unilab · Autonomia, inclusão e acessibilidade.<br><span>App independente de apoio a estudantes. Registros salvos neste dispositivo.</span></footer>
+</body>
+</html>
